@@ -1,0 +1,19 @@
+# MATLAB
+*.asv
+*.m~
+*.mex*
+slprj/
+sccprj/
+codegen/
+*.autosave
+*.slxc
+*.mlappinstall
+*.mltbx
+helpsearch*/
+resources/project/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
