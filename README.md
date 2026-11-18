@@ -2,10 +2,35 @@
 
 ## PID Control of DC Motor Speed
 
-`PID_Control_of_DC_Motor_Speed.m` models a DC motor as a second-order
-transfer function and closes a PID speed loop around it. It compares the
-open-loop motor with two sets of PID gains and reports how tuning changes the
-transient response.
+**A DC motor modelled as a transfer function from armature voltage to speed,
+with a PID speed loop closed around it in MATLAB, comparing an initial and a
+tuned set of gains on a 1 rad/s step.** Simulation only, with assumed motor
+parameters.
+
+| | |
+|---|---|
+| **Measured result (simulation)** | Tuning cut the 2% settling time from ~1.7 s to ~0.9 s, overshoot went from ~44 % to ~38 %, and steady-state error is ≈ 0 in both cases (see [Results](#results)) |
+| **Demo** | None. Run the script to reproduce the step-response plot (see [Running](#running)) |
+
+### System diagram
+
+```
+            e(t)   ┌───────────────────┐  V(t)  ┌──────────────────────────────┐   ω(t)
+ r = 1 ──►(+)─────►│ PID               │───────►│ DC motor                     │────┬──► speed
+ rad/s     ▲ −     │ Kp + Ki/s + Kd·s  │        │ K / ((Js + b)(Ls + R) + K²)  │    │
+           │       └───────────────────┘        └──────────────────────────────┘    │
+           └──────────────────────────────── unity feedback ◄───────────────────────┘
+```
+
+### Status / Planned
+
+**Built**
+- Motor model, initial versus tuned PID gains, and a step-response comparison with a metrics table (`PID_Control_of_DC_Motor_Speed.m`)
+
+**Planned (not built)**
+- Tune for lower overshoot (e.g. with `pidtune` or by reducing Ki)
+- Add a load-torque disturbance and compare disturbance rejection
+- Model actuator voltage saturation and add anti-windup
 
 ### Model
 
@@ -62,9 +87,3 @@ run('PID_Control_of_DC_Motor_Speed.m')
 
 The script prints the transfer function and a metrics table, and opens a
 figure comparing the step responses.
-
-### Ideas for extension
-
-- Tune for lower overshoot (e.g. with `pidtune` or by reducing Ki)
-- Add a load-torque disturbance and compare disturbance rejection
-- Model actuator voltage saturation and add anti-windup
